@@ -1,0 +1,58 @@
+﻿@model ASM_api.Models.ProductDto
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container-fluid shadow h-100 mt-4">
+    <h4>Create Product</h4>
+    <hr />
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ProductName" class="control-label"></label>
+                    <input asp-for="ProductName" class="form-control" />
+                    <span asp-validation-for="ProductName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-1">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-1">
+                    <label asp-for="CategoryID" class="control-label"></label>
+                    <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryID"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Availability" class="control-label"></label>
+                    <select asp-for="Availability" class="form-control">
+                        <option value="Còn hàng">Còn hàng</option>
+                        <option value="Hết hàng">Hết hàng</option>
+                    </select>
+                    <span asp-validation-for="Availability" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-1">
+                    <label asp-for="SupplierID" class="control-label"></label>
+                    <select asp-for="SupplierID" class="form-control" asp-items="ViewBag.SupplierID"></select>
+                </div>
+                <div class="form-group mt-1">
+                    <label asp-for="FileHinhAnh" class="control-label"></label>
+                    <input asp-for="FileHinhAnh" type="file" class="form-control" />
+                    <span asp-validation-for="FileHinhAnh" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-1 text-center">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <a class="btn btn-light" asp-action="Index">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

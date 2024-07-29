@@ -1,0 +1,54 @@
+﻿@model IEnumerable<ASM_api.Models.Supplier>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Nhà cung cấp</h1>
+
+<p>
+    <a class ="btn btn-primary" asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SupplierName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                    <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.SupplierID">Edit</a> |
+                    <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.SupplierID">Details</a> |
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.SupplierID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,54 @@
+﻿@model IEnumerable<ASM_api.Models.Employee>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Employee</h3>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create"><i class="bi bi-plus-square"></i> Create New</a>
+</p>
+<table class="table table-responsive table-hover table-borderless">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Position)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                    <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.EmployeeID"><i class="bi bi-pencil-square"></i> Edit</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.EmployeeID"><i class="bi bi-trash3"></i> Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

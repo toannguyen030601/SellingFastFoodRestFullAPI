@@ -1,0 +1,112 @@
+﻿@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<ASM_api.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container-fluid shadow h-100 mt-4">
+    <h3>Products</h3>
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary" asp-action="Create"><i class="bi bi-plus-square"></i> Thêm mới</a>
+        </div>
+        <div class="col d-flex justify-content-end">
+            <form asp-action="Index" method="get" class="form-check-inline">
+                <div class="input-group">
+                    <input class="form-control" type="text" name="Tensp" placeholder="Nhập tên cần tìm" />
+                    <button class="btn btn-light btn-group border border-dark">Tìm</button>
+                </div>
+            </form>
+            <a class="btn btn-danger" asp-action="Index">
+                <i class="bi bi-x-square"></i>
+            </a>
+        </div>
+    </div>
+    <table class="table table-responsive table-hover table-borderless">
+        <thead>
+            <tr>
+                <th>ProductName</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>CategoryID</th>
+                <th>Availability</th>
+                <th>Bật / tắt</th> <!-- Thêm cột mới -->
+                <th>SupplierID</th>
+                <th>Hinhanh</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Description</td>
+                    <td>@item.Price.ToString("#,###")</td>
+                    <td>@item.CategoryID</td>
+                    <td class="@(item.Availability == "Còn hàng" ? "con-hang" : "het-hang")">@item.Availability</td>
+                    <td>
+                        <a class="btn btn-sm btn-info toggle-btn" asp-controller="Products" asp-action="ToggleAvailability" asp-route-id="@item.ProductID">
+                            @(item.Availability == "Còn hàng" ? "ON" : "OFF")
+                        </a>
+                    </td>
+                    <td>@item.SupplierID</td>
+                    <td><img src="/images/products/@item.Hinhanh" width="60px" /></td>
+                    <td>
+                        <a class="btn btn-success" asp-controller="Products" asp-action="Edit" asp-route-id="@item.ProductID">Edit</a>
+                        <a class="btn btn-danger" asp-controller="Products" asp-action="Delete" asp-route-id="@item.ProductID">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="row mt-3">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page, Tensp = ViewBag.CurrentSearch }), new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true, MaximumPageNumbersToDisplay = 5 })
+    </div>
+</div>
+
+
+
+
+<style>
+    .con-hang {
+        color: green; /* Màu xanh cho "Còn hàng" */
+    }
+
+    .het-hang {
+        color: yellow; /* Màu vàng cho "Hết hàng" */
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        list-style: none;
+        padding: 0;
+    }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+            .pagination li a {
+                color: #007bff;
+                text-decoration: none;
+                padding: 5px 10px;
+                border: 1px solid #007bff;
+                border-radius: 3px;
+            }
+
+            .pagination li.active a {
+                background-color: #007bff;
+                color: #fff;
+                border-color: #007bff;
+            }
+
+            .pagination li.disabled a {
+                color: #ccc;
+                pointer-events: none;
+            }
+</style>

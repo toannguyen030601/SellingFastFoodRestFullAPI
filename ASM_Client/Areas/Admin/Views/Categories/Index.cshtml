@@ -1,0 +1,36 @@
+﻿@model IEnumerable<ASM_api.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Category</h3>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create"><i class="bi bi-plus-square"></i> Thêm mới</a>
+</p>
+<table class="table table-responsive table-hover table-borderless">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CategoryName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    <a class="btn btn-success" asp-controller="Categories" asp-action="Edit" asp-route-id="@item.CategoryID"><i class="bi bi-pencil-square"></i> Sửa</a>
+                    <a class="btn btn-danger" asp-controller="Categories" asp-action="Delete" asp-route-id="@item.CategoryID"><i class="bi bi-trash3"></i> Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

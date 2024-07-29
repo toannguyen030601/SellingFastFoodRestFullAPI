@@ -1,0 +1,215 @@
+﻿@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<ASM_api.Models.Product>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container-fluid">
+    <div class="mt-3 text-center">
+        <h2>
+            <a class="text-decoration-none text-dark" href="#">
+                <i class="bi bi-menu-down"></i>
+                <span>Menu</span>
+            </a>
+        </h2>
+    </div>
+
+    <div class="mt-3 text-center">
+        @foreach (var item in ViewBag.Category)
+        {
+            <a class="btn btn-dark @((ViewBag.CurrentCategory == item.CategoryID) ? "active" : "")"
+               asp-controller="Home"
+               asp-action="Index"
+               asp-route-danhmuc="@item.CategoryID"
+               class="text-decoration-none">
+                @item.CategoryName
+            </a>
+        }
+        <a class="btn btn-danger" asp-controller="Home" asp-action="Index">
+            <i class="bi bi-x-square"></i>
+        </a>
+        <div class="col d-flex justify-content-center mt-3">
+            <form asp-action="Index" method="get" class="form-inline">
+                <div class="input-group">
+                    <input class="form-control" type="text" name="search" placeholder="Nhập tên cần tìm" />
+                    <button class="btn btn-light btn-group border border-dark">Tìm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sản phẩm -->
+    <div class="container mt-3">
+        <div class="row fw-bold">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="product-box h-100 shadow-sm border-0">
+                        <a href="@Url.Action("Detail", "Home", new { id = item.ProductID })" class="mt-auto">
+                            <div class="img-box">
+                                <img src="~/images/products/@item.Hinhanh" alt="@item.ProductName" title="@item.ProductName">
+                            </div>
+                        </a>
+
+                        <div class="detail-box">
+                            <h5 class="card-title mb-3 text-white">@item.ProductName</h5>
+                            <p class="description">@item.Description</p>
+                            <div class="options-box">
+                                <p class="card-text text-danger fw-bold">@item.Price.ToString("#,###") VNĐ</p>
+                                @if (item.Availability == "Còn hàng")
+                                {
+                                    <a href="@Url.Action("Buy", "Carts", new { id = item.ProductID })" class="btn btn-outline-warning rounded-circle" title="Add to Cart">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-outline-light rounded-circle" title="Add to Cart" disabled>
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </button>
+                                }
+                            </div>
+                            <p class="text-end text-light" style="font-size: 10px;">@item.Availability</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="row mt-3">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page, danhmuc = ViewBag.CurrentCategory, search = ViewBag.Search }), new PagedListRenderOptions { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true, MaximumPageNumbersToDisplay = 5 })
+    </div>
+    @* <div class="buttonxtc mt-3 text-center">
+        <a class="btn btn-light border-dark" asp-controller="DienThoaiClient" asp-action="Index">
+            <span class="btn-content">Xem tất cả</span>
+            <span><i class="bi bi-arrow-right-square-fill"></i></span>
+        </a>
+    </div> *@
+</div>
+
+
+
+<style>
+    .container-fluid {
+        padding: 15px;
+    }
+
+    .product-box {
+        position: relative;
+        background-color: #333333;
+        border-radius: 15px;
+        overflow: hidden;
+        transition: box-shadow .3s, transform .3s;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+        .product-box:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
+        }
+
+    .img-box {
+        background: #f1f2f3;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 215px;
+        border-bottom-left-radius: 50px;
+        padding: 15px;
+    }
+
+        .img-box img {
+            max-width: 100%;
+            max-height: 145px;
+            transition: transform .2s;
+        }
+
+            .img-box img:hover {
+                transform: scale(1.1);
+            }
+
+    .detail-box {
+        padding: 15px;
+        text-align: center;
+    }
+
+        .detail-box .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .detail-box .description {
+            font-size: 14px;
+            color: #c4c4c4;
+            margin-bottom: 10px;
+        }
+
+        .detail-box .options-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+            .detail-box .options-box .btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 5px 10px;
+            }
+
+    .btn.active {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+    .btnx {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 20px;
+        font-size: 16px;
+        transition: background-color .3s, border-color .3s;
+    }
+
+        .btnx:hover {
+            background-color: #ddd;
+            border-color: #bbb;
+        }
+
+    .buttonxtc .btn-content {
+        margin-right: 10px;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        list-style: none;
+        padding: 0;
+    }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+
+            .pagination li a {
+                color: #007bff;
+                text-decoration: none;
+                padding: 5px 10px;
+                border: 1px solid #007bff;
+                border-radius: 3px;
+            }
+
+            .pagination li.active a {
+                background-color: #007bff;
+                color: #fff;
+                border-color: #007bff;
+            }
+
+            .pagination li.disabled a {
+                color: #ccc;
+                pointer-events: none;
+            }
+</style>
