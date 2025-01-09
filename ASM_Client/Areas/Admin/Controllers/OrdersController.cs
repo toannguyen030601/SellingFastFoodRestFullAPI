@@ -20,7 +20,7 @@ namespace ASM_Client.Areas.Admin.Controllers
     public class OrdersController : Controller
     {
         Uri baseUrl = new Uri("https://localhost:7041/api/");
-
+            
         private readonly HttpClient _httpClient;
         public OrdersController(HttpClient httpClient)
         {
